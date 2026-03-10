@@ -1,6 +1,6 @@
 # Manba back - Qwen3-4B Attention-Mamba Model
 ## <center>In memory of Kobe bryant
-![科比大战变形金刚 - Mamba项目插图](./images/mamba.png)
+![科比大战变形金刚 - Mamba项目插图](./images/mamba.jpg)
 
 
 > 将 Qwen3-4B 的 75% Attention 层替换为线性复杂度层（Mamba / GatedDeltaNet），通过知识蒸馏恢复语言能力，实现长上下文下的推理加速与显存优化。
