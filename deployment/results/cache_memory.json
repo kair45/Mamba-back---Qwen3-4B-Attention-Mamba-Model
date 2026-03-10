@@ -1,0 +1,67 @@
+{
+  "baselines": [
+    {
+      "label": "Qwen3-4B",
+      "model_path": "/root/autodl-tmp/models/Qwen3-4B",
+      "device": "cuda",
+      "context_lengths": [
+        128,
+        256,
+        512,
+        1024,
+        2048,
+        4096
+      ],
+      "cache_memory_mb": [
+        26.12,
+        36.0,
+        72.0,
+        166.0,
+        288.0,
+        576.0
+      ]
+    },
+    {
+      "label": "Qwen3.5-4B",
+      "model_path": "/root/autodl-tmp/qwen/Qwen3.5-4B",
+      "device": "cuda",
+      "context_lengths": [
+        128,
+        256,
+        512,
+        1024,
+        2048,
+        4096
+      ],
+      "cache_memory_mb": [
+        53.5,
+        58.62,
+        66.0,
+        90.5,
+        114.0,
+        177.5
+      ]
+    }
+  ],
+  "mamba": {
+    "label": "Mamba Hybrid",
+    "model_path": "./checkpoints/qwen3-4b-mamba-phase2-v3/checkpoint-1000",
+    "device": "cuda",
+    "context_lengths": [
+      128,
+      256,
+      512,
+      1024,
+      2048,
+      4096
+    ],
+    "cache_memory_mb": [
+      9.77,
+      14.27,
+      23.27,
+      46.27,
+      77.27,
+      149.27
+    ]
+  }
+}

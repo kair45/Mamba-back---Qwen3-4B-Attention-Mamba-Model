@@ -1,0 +1,26 @@
+transformers>=4.51.0
+datasets>=2.16.0
+accelerate>=0.25.0
+einops>=0.7.0
+pyyaml>=6.0
+tensorboard>=2.15.0
+tqdm>=4.66.0
+sentencepiece>=0.1.99
+tokenizers>=0.15.0
+wandb>=0.16.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+openai>=1.0.0
+
+# Optional: For downstream task evaluation
+# pip install lm-eval>=0.4.0
+
+# Optional: CUDA-optimized Mamba kernels (recommended for training)
+# pip install mamba-ssm>=2.0.0
+# pip install causal-conv1d>=1.2.0
+
+# Optional: Flash Linear Attention (CUDA kernels for GatedDeltaNet)
+# pip install fla
+
+# Optional: 8-bit AdamW optimizer (saves ~12 GB optimizer VRAM, recommended for single 24GB GPU)
+# pip install bitsandbytes>=0.43.0

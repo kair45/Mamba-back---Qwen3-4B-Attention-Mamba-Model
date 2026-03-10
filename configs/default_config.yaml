@@ -1,0 +1,101 @@
+# ============================================================
+# Qwen Hybrid Model Configuration
+# Supports: Mamba (SSM) and GatedDeltaNet linear layers
+# ============================================================
+
+# --- Base Model ---
+model:
+  base_model_name: "Qwen/Qwen3-4B"
+  attention_interval: 4                       # Keep attention every N layers
+  # attention_layers: null                    # Or specify exact indices
+  linear_layer_type: "mamba"                  # "mamba" or "gated_deltanet"
+  output_dir: "./checkpoints/qwen3-4b-hybrid"
+
+# --- Mamba SSM Configuration ---
+mamba:
+  d_state: 16          # SSM state dimension (N)
+  d_conv: 4            # Local convolution width
+  expand: 2            # Inner dimension expansion factor
+  dt_rank: "auto"
+  dt_min: 0.001
+  dt_max: 0.1
+  dt_init: "random"
+  dt_scale: 1.0
+  dt_init_floor: 1e-4
+  bias: false
+  conv_bias: true
+
+# --- GatedDeltaNet Configuration ---
+gated_deltanet:
+  key_head_dim: 128       # Dimension per key/query head
+  value_head_dim: 128     # Dimension per value head
+  conv_kernel: 4          # Short causal convolution kernel size
+  use_output_gate: true   # Use SiLU output gating
+  num_heads: null         # null = auto (hidden_size / key_head_dim)
+
+# --- Knowledge Distillation ---
+distillation:
+  temperature: 2.0
+  alpha_kd: 0.5
+  alpha_ce: 0.5
+  alpha_hidden: 0.0
+  hidden_align_layers: []
+
+# --- API Distillation (Qwen-Max) ---
+api_distillation:
+  api_base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  teacher_model: "qwen-max"
+  gen_max_tokens: 2048
+  gen_temperature: 0.7
+  gen_top_p: 0.9
+  use_logprobs: true
+  logprob_top_k: 20
+
+# --- Training ---
+training:
+  dataset_name: "HuggingFaceFW/fineweb-edu"
+  dataset_config: "sample-10BT"
+  dataset_split: "train"
+  max_seq_length: 2048
+  preprocessing_num_workers: 8
+
+  num_train_epochs: 1
+  max_steps: -1
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 4
+  gradient_accumulation_steps: 16
+  learning_rate: 5.0e-4
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  warmup_ratio: 0.03
+  lr_scheduler_type: "cosine"
+
+  bf16: true
+  fp16: false
+  gradient_checkpointing: true
+  dataloader_num_workers: 4
+  dataloader_pin_memory: true
+
+  logging_steps: 10
+  save_steps: 500
+  eval_steps: 500
+  save_total_limit: 3
+  report_to: "tensorboard"
+  run_name: "qwen-hybrid-distill"
+
+  deepspeed: null
+  seed: 42
+
+# --- MoE Expansion ---
+moe:
+  num_experts: 8
+  top_k: 2
+  shared_expert: true
+  noise_scale: 0.01
+  aux_loss_coef: 0.01
+
+# --- Evaluation ---
+evaluation:
+  tasks: ["hellaswag", "arc_easy", "winogrande", "mmlu"]
+  batch_size: 8
+  num_fewshot: 0
